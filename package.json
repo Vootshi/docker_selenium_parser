@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "chromedriver": "^97.0.0",
+    "express": "^4.17.2",
+    "geckodriver": "^3.0.1",
+    "selenium-webdriver": "^4.1.0"
+  },
+  "webdriver": {
+    "server_path": "./node_modules/.bin/chromedriver"
+  },
+  "scripts": {
+    "start": "node parser.js"
+  }
+}
