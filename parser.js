@@ -1,31 +1,11 @@
 //  Маханов Константин
 // docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:4.1.1-20211217
 
-var fs = require("fs");
-var index = fs.readFileSync('index.html');
-
-const express = require('express');
-const app = express();
-const port = 3000; //   Можно изменить, если порт занят
-
 const {Builder, By, Key, until} = require('selenium-webdriver');
-require('chromedriver')
+require('chromedriver');
+const server = require("./server");
 
-// Передаём на клиент страницу index.html
-app.get('/', (req, res) => {
-    res.end(index)
-});
-
-// Обрабатываем запрос на получение массива отзывов
-app.get('/reviews', (req, res) => {
-    res.send({reviewList});
-});
-
-app.listen(port, () => {
-    console.log('Успешно запущено, ожидайте завершения выполнения. После завершения в консоли отобразится ссылка на результат');
-})
-
-var reviewList = [];
+global.reviewList = [];
 
 (async function parse() {
 
@@ -61,9 +41,12 @@ var reviewList = [];
 
         await parseReviews();
 
-        await console.log(`Результат: http://localhost:${port}`);
+        await server.runServer();
+
+        await console.log(`Результат: http://localhost:${global.port}`);
 
         await driver.quit();
+
         // await driver.get('http://127.0.0.1:3000/');
     }
 })();
